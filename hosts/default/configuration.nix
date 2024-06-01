@@ -19,6 +19,19 @@
     driSupport32Bit = true;
   };
 
+#  sound.enable = true;
+#  hardware.pulseaudio.enable = true;
+#  hardware.pulseaudio.support32Bit = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
+
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 
@@ -60,8 +73,8 @@
 			enableOffloadCmd = true;
 		};
 		# Make sure to use the correct Bus ID values for your system!
-		intelBusId = "PCI:0:2:0";
 		nvidiaBusId = "PCI:1:0:0";
+		intelBusId = "PCI:0:2:0";
 	};
 
 
@@ -69,9 +82,8 @@
   main-user.userName = "purple-mountain";
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -91,68 +103,140 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+
+  i18n.inputMethod = {
+    enabled = "ibus";
+    ibus.engines = with pkgs.ibus-engines; [mozc];
+
+    # enabled = "fcitx5";
+    # fcitx5.addons = with pkgs; [
+    #   fcitx5-mozc
+    #   fcitx5-gtk
+    # ];
+    # fcitx.engines = with pkgs.fcitx5-engines; [ mozc ];
+  };
+
   programs.zsh.enable = true;
+  programs.nix-ld.enable = true;
+
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
   	enable = true;
   	autorun = false;
-	xkb = {
-		variant = "";
- 		layout = "us";
-	};
+    xkb = {
+      variant = "";
+      options = "grp:alt_shift_toggle";
+      layout = "us, ru";
+    };
   	desktopManager = {
-    		xterm.enable = false;
-    	};
-	displayManager = {
-		defaultSession = "none+i3";
-		lightdm.enable = true;
-	};
+    	xterm.enable = false;
+    };
+    displayManager = {
+      lightdm.enable = true;
+    };
   	windowManager.i3 = {
-		enable = true;
-		extraPackages = with pkgs; [
-			dmenu
-		];
-	};
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu
+      ];
+    };
   };
+
+  services.displayManager.defaultSession = "none+i3";
+
+  virtualisation.containers.enable = true;
+  virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.purple-mountain = {
     isNormalUser = true;
     description = "main user";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
     openssh.authorizedKeys.keys = ["AAAAC3NzaC1lZDI1NTE5AAAAIL+XgYBF7Ft8cXv3i+oDB7u77SyoKQx+GmKaOPr5jBgs"];
     packages = with pkgs; [
-	htop
-	lf
-	picom
-	polybar
-	kitty
-	dunst
-	rofi
+      htop
+      libgcc
+      lf
+      xorg.xev
+      picom
+      polybar
+      kitty
+      dunst
+      rofi
+      alsa-utils
+      alsa-lib
+      alsa-plugins
+      alsa-tools
+      pulseaudio
+      pavucontrol
+      lshw
+      lsof
     ];
   };
 
   home-manager = {
-	extraSpecialArgs = { inherit inputs; };	  
-	users = {
-	  "purple-mountain" = import ./home.nix;
-	};
+    extraSpecialArgs = { inherit inputs; };	  
+    users = {
+      "purple-mountain" = import ./home.nix;
+    };
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.pulseaudio = true;
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-	vim
-	neofetch
-	tmux
-	git
-	gh
-	neovim
-	xclip
+    mkvtoolnix
+    ffmpeg
+    libgcc
+    stdenv.cc.cc.lib
+    gnumake
+    unzip
+    ripgrep
+    fd
+    cmake
+
+    nodejs_20
+    corepack_20
+    go
+    zig
+    python3
+    yarn
+
+    emacs
+    neovim-unwrapped
+    vim
+    neofetch
+    tmux
+    git
+    gh
+    lunarvim
+    xclip
+  ];
+
+  environment = {
+    sessionVariables = {
+      LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    };
+  };
+
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = ["FiraCode" "JetBrainsMono" "RobotoMono"]; })
+    material-icons
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    ipafont
+    kochi-substitute
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

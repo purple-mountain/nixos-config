@@ -155,6 +155,9 @@ bindsym $mod+Right resize grow width 10 px or 10 ppt
 # keybindings for different actions: #
 ######################################
 
+# start muffon
+bindsym $mod+m exec appimage-run ~/appimages/muffon-2.0.3-linux-x86_64.AppImage
+
 # start a terminal
 bindsym $mod+Return exec kitty
 
@@ -239,12 +242,18 @@ bindsym $mod+Shift+n exec ~/.config/i3/scripts/empty_workspace
 # Multimedia Keys
 
 # volume
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+ && pkill -RTMIN+1 i3blocks
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%- && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 2%+ && pkill -RTMIN+1 i3blocks
+# bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 2%- && pkill -RTMIN+1 i3blocks
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +2% && pkill -RTMIN+1 i3blocks
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -2% && pkill -RTMIN+1 i3blocks
 
 # gradular volume control
-bindsym $mod+XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+XF86AudioLowerVolume exec amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
+# bindsym $mod+XF86AudioRaiseVolume exec amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
+# bindsym $mod+XF86AudioLowerVolume exec amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
+
+bindsym $mod+XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1% && pkill -RTMIN+1 i3blocks
+bindsym $mod+XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1% && pkill -RTMIN+1 i3blocks
 
 # mute
 bindsym XF86AudioMute exec amixer sset Master toggle && killall -USR1 i3blocks
@@ -259,8 +268,8 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec /usr/bin/firefox-developer-edition
-bindsym $mod+n exec /usr/bin/thunar
+bindsym $mod+w exec firefox-devedition
+bindsym $mod+n exec thunar
 # bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
 bindsym Print exec "flameshot gui"
 
@@ -322,7 +331,7 @@ for_window [class=TelegramDesktop] focus
 # options could need changes, related to used GPU and drivers.
 # to find the right setting consult the archwiki or ask at the forum.
 #
-# xcompmgr: https://wiki.archlinux.org/title/Xcompmgr
+# xcompmgr: https:/config/wiki.archlinux.org/title/Xcompmgr
 # manpage: https://man.archlinux.org/man/xcompmgr.1.en
 # install xcompmgr package to use it (yay -S xcompmgr)
 #exec --no-startup-id xcompmgr -C -n &
@@ -340,7 +349,7 @@ for_window [class=TelegramDesktop] focus
 #exec_always --no-startup-id picom -b
 #
 # for custom config:
-exec_always --no-startup-id picom --config  ~/.config/picom.conf
+exec_always --no-startup-id picom --config  ~/.config/picom/picom.conf
 
 #############################################
 # autostart applications/services on login: #
@@ -361,7 +370,9 @@ exec --no-startup-id dex --autostart --environment i3
 #exec --no-startup-id sh /usr/share/endeavouros/scripts/welcome --startdelay=3 
 
 # num lock activated
-exec --no-startup-id numlockx off
+exec --no-startup-id numlockx on
+
+exec --no-startup-id ibus-daemon --daemonize
 
 # configure multiple keyboard layouts and hotkey to switch (Alt+CAPSLOCK in this example)
 #exec --no-startup-id setxkbmap -layout 'us,sk' -variant altgr-intl,qwerty -option 'grp:alt_caps_toggle'
@@ -391,7 +402,7 @@ exec --no-startup-id xset s 480 dpms 600 600 600
 # https://wiki.archlinux.org/title/Session_lock#xautolock
 #exec --no-startup-id xautolock -time 60 -locker "systemctl suspend"
 
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 # exec_always --no-startup-id ~/.config/polybar/launch.sh &
 
 # xscreensaver
