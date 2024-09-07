@@ -44,6 +44,7 @@
 	  telegram-desktop
 	  flameshot
 	  p7zip
+    zip
     xarchiver
 	  gthumb
 	  calibre
@@ -54,7 +55,14 @@
     shellcheck
     discord
     appimage-run
-
+    spotify
+    postman
+    teams-for-linux
+    vscode
+    wireshark
+    feh
+    scrot
+    i3lock
     # nodePackages.volar
     # nodePackages.typescript-language-server
     # rust-analyzer
@@ -157,7 +165,7 @@
     	autoload -Uz compinit promptinit 
     	eval "$(zoxide init zsh)"
       export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
-      export PATH=$PATH:~/.config/emacs/bin
+      export PATH=$HOME/.local/bin:$PATH
     '';
   };
 }

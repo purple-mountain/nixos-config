@@ -35,6 +35,8 @@
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];
 
+
+  boot.kernelParams = [ "nvidia-drm.fbdev=1" ];
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -81,6 +83,19 @@
   main-user.enable = true;
   main-user.userName = "purple-mountain";
 
+  systemd.services.wpa_supplicant.environment.OPENSSL_CONF = pkgs.writeText"openssl.cnf"''
+  openssl_conf = openssl_init
+  [openssl_init]
+  ssl_conf = ssl_sect
+  [ssl_sect]
+  system_default = system_default_sect
+  [system_default_sect]
+  Options = UnsafeLegacyRenegotiation
+  [system_default_sect]
+  CipherString = Default:@SECLEVEL=0
+  ''
+  ;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -102,7 +117,10 @@
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ja_JP.UTF-8/UTF-8"
+  ];
 
   i18n.inputMethod = {
     enabled = "ibus";
@@ -154,7 +172,7 @@
   users.users.purple-mountain = {
     isNormalUser = true;
     description = "main user";
-    extraGroups = [ "networkmanager" "wheel" "audio" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "docker" "video" ];
     openssh.authorizedKeys.keys = ["AAAAC3NzaC1lZDI1NTE5AAAAIL+XgYBF7Ft8cXv3i+oDB7u77SyoKQx+GmKaOPr5jBgs"];
     packages = with pkgs; [
       htop
@@ -174,6 +192,9 @@
       pavucontrol
       lshw
       lsof
+      flatpak
+      wpa_supplicant
+      wpa_supplicant_gui
     ];
   };
 
@@ -195,6 +216,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    rar
+    unrar
     mkvtoolnix
     ffmpeg
     libgcc
@@ -211,6 +234,7 @@
     zig
     python3
     yarn
+    brightnessctl
 
     emacs
     neovim-unwrapped
@@ -221,6 +245,18 @@
     gh
     lunarvim
     xclip
+    wineWowPackages.stable
+    winetricks
+    bottles-unwrapped
+    lutris-unwrapped
+    llama-cpp
+    xorg.libxcb
+    # mesa
+    # vulkan-headers
+    # vulkan-loader
+    # vulkan-validation-layers
+    # vulkan-tools
+    docker-compose
   ];
 
   environment = {
