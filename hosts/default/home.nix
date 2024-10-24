@@ -47,7 +47,6 @@
     zip
     xarchiver
 	  gthumb
-	  calibre
     qbittorrent
 	  zoxide
     vlc
@@ -166,6 +165,7 @@
     	eval "$(zoxide init zsh)"
       export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
       export PATH=$HOME/.local/bin:$PATH
+      export ANDROID_HOME=$HOME/Android/Sdk && export PATH=$PATH:$ANDROID_HOME/emulator && export PATH=$PATH:$ANDROID_HOME/platform-tools
     '';
   };
 }

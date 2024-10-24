@@ -15,7 +15,6 @@
 # Enable OpenGL
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
   };
 
@@ -195,6 +194,9 @@
       flatpak
       wpa_supplicant
       wpa_supplicant_gui
+      obs-studio
+      android-studio
+      jmtpfs
     ];
   };
 
@@ -204,6 +206,9 @@
       "purple-mountain" = import ./home.nix;
     };
   };
+
+  # for file transfer
+  services.gvfs.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -244,6 +249,7 @@
     git
     gh
     lunarvim
+    vivaldi
     xclip
     wineWowPackages.stable
     winetricks
@@ -251,12 +257,14 @@
     lutris-unwrapped
     llama-cpp
     xorg.libxcb
+    pkgs.postgresql
     # mesa
     # vulkan-headers
     # vulkan-loader
     # vulkan-validation-layers
     # vulkan-tools
     docker-compose
+    v4l-utils
   ];
 
   environment = {
@@ -282,6 +290,9 @@
     enable = true;
     enableSSHSupport = true;
   };
+
+  # file transfer
+  programs.kdeconnect.enable = true;
 
   # List services that you want to enable:
 
