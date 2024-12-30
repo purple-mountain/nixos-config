@@ -52,7 +52,6 @@
     feh
     scrot
     i3lock
-    fastfetch
   ];
 
   home.file = {

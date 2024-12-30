@@ -205,6 +205,7 @@
     users = {
       "purple-mountain" = import ./home.nix;
     };
+    backupFileExtension = "backup";
   };
 
   # for file transfer
@@ -268,6 +269,7 @@
     apacheHttpd
     brave
     starship
+    fastfetch
   ];
 
   environment = {
