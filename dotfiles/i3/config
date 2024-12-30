@@ -159,7 +159,7 @@ bindsym $mod+Right resize grow width 10 px or 10 ppt
 bindsym $mod+m exec appimage-run ~/appimages/muffon-2.0.3-linux-x86_64.AppImage
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec ghostty
 
 # kill focused window
 bindsym $mod+q kill
@@ -272,7 +272,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym $mod+p exec /usr/local/bin/switch-audio-port
 
 ## App shortcuts
-bindsym $mod+w exec firefox-devedition
+bindsym $mod+w exec brave
 bindsym $mod+n exec thunar
 # bindsym Print exec scrot ~/%Y-%m-%d-%T-screenshot.png && notify-send "Screenshot saved to ~/$(date +"%Y-%m-%d-%T")-screenshot.png"
 bindsym Print exec "flameshot gui"
