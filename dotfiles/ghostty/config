@@ -1,0 +1,25 @@
+gtk-titlebar = false
+
+window-padding-y = 7,0
+window-padding-x = 4,4
+
+window-padding-balance = false
+
+font-family = "JetBrainsMono Nerd Font"
+font-size = 15
+
+background-opacity = 0.8
+background = 151413
+
+clipboard-read = allow
+clipboard-write = allow
+
+cursor-style = block
+cursor-style-blink = false
+cursor-color = eeeeee
+
+mouse-hide-while-typing = true
+
+bold-is-bright = true
+
+shell-integration-features = no-cursor
