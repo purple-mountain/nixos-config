@@ -265,6 +265,9 @@
     # vulkan-tools
     docker-compose
     v4l-utils
+    apacheHttpd
+    brave
+    starship
   ];
 
   environment = {
