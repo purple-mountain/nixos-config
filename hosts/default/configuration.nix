@@ -99,53 +99,15 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  services.dnscrypt-proxy2 = {
-    enable = true;
-    settings = {
-      ipv4_servers = true;
-      ipv6_servers = false;
-      require_dnssec = true;
-      
-      # Use multiple protocols and providers for redundancy
-      sources.public-resolvers = {
-        urls = [
-          "https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md"
-          "https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md"
-        ];
-        cache_file = "/var/lib/dnscrypt-proxy2/public-resolvers.md";
-        minisign_key = "RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3";
-      };
-      
-      # Force TCP to help avoid UDP blocking
-      force_tcp = true;
-      
-      # Listen on localhost
-      listen_addresses = ["127.0.0.1:53"];
-    };
-  };
-
   networking = {
     hostName = "nixos";
-    # wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
 
-    # Configure network proxy if necessary
-    # proxy.default = "http://user:password@proxy:port/";
-    # proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-    networkmanager.dns = "none";
-
-    nameservers = [ "127.0.0.1" ];
-
-    # not being applied here
-    # nameservers = [ "8.8.8.8" "1.1.1.1" ];  # Google and Cloudflare DNS
-    # resolvconf.enable = false;  # Don't use DNS from DHCP
+    networkmanager.dns = "default";
 
     resolvconf.enable = true;
     useHostResolvConf = false;
 
-    # Open ports in the firewall.
-    # firewall.allowedUDPPorts = [ ... ];
     firewall.allowedTCPPorts = [ 22 ];
     firewall.enable = true;
   };
