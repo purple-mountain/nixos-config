@@ -1,22 +1,31 @@
-#######################
-# config starts here: #
-#######################
-
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango: Noto Sans Regular 10
 
-# set the mod key to the winkey:
 set $mod Mod4
 
-#####################
-# workspace layout: #
-#####################
+set $fm eDP-1
+set $sm HDMI-1-0
 
-# default i3 tiling mode:
 workspace_layout default
+
+workspace 1 output $fm
+workspace 2 output $fm
+workspace 3 output $fm
+workspace 4 output $fm
+workspace 5 output $fm
+workspace 6 output $fm
+workspace 7 output $fm
+workspace 8 output $fm
+workspace 9 output $fm
+workspace 10 output $fm
+workspace 11 output $sm
+workspace 12 output $sm
+workspace 13 output $sm
+workspace 14 output $sm
+workspace 15 output $sm
+workspace 16 output $sm
+workspace 17 output $sm
+workspace 18 output $sm
+workspace 19 output $sm
 
 # i3 stacking layout:
 # Each window will be fullscreen and tabbed top to bottom.
@@ -66,6 +75,16 @@ bindsym $mod+8    workspace  $ws8
 bindsym $mod+9    workspace  $ws9
 bindsym $mod+0    workspace  $ws10
 
+bindsym Mod1+1    workspace  $ws11
+bindsym Mod1+2    workspace  $ws12
+bindsym Mod1+3    workspace  $ws13
+bindsym Mod1+4    workspace  $ws14
+bindsym Mod1+5    workspace  $ws15
+bindsym Mod1+6    workspace  $ws16
+bindsym Mod1+7    workspace  $ws17
+bindsym Mod1+8    workspace  $ws18
+bindsym Mod1+9    workspace  $ws19
+
 # switch to workspace with numpad keys
 bindcode $mod+87 workspace 1
 bindcode $mod+88 workspace 2
@@ -101,6 +120,16 @@ bindsym $mod+Shift+7    move container to workspace  $ws7
 bindsym $mod+Shift+8    move container to workspace  $ws8
 bindsym $mod+Shift+9    move container to workspace  $ws9
 bindsym $mod+Shift+0    move container to workspace  $ws10
+
+bindsym $mod+Ctrl+1     move container to workspace  $ws11
+bindsym $mod+Ctrl+2     move container to workspace  $ws12
+bindsym $mod+Ctrl+3     move container to workspace  $ws13
+bindsym $mod+Ctrl+5     move container to workspace  $ws15
+bindsym $mod+Ctrl+4     move container to workspace  $ws14
+bindsym $mod+Ctrl+6     move container to workspace  $ws16
+bindsym $mod+Ctrl+7     move container to workspace  $ws17
+bindsym $mod+Ctrl+8     move container to workspace  $ws18
+bindsym $mod+Ctrl+9     move container to workspace  $ws19
 
 # move focused container to workspace with numpad keys
 bindcode $mod+Shift+Mod2+87 	move container to workspace  $ws1
@@ -296,6 +325,15 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+set $ws11 "11"
+set $ws12 "12"
+set $ws13 "13"
+set $ws14 "14"
+set $ws15 "15"
+set $ws16 "16"
+set $ws17 "17"
+set $ws18 "18"
+set $ws19 "19"
 
 
 # use workspaces on different displays:
@@ -574,3 +612,4 @@ bindsym $mod+t exec rofi -show window \
 # bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard \
 #		-config ~/.config/rofi/rofidmenu.rasi
 
+exec_always --no-startup-id xrandr --output $fm --auto --output $sm --auto --right-of $fm

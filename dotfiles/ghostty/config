@@ -1,7 +1,7 @@
 gtk-titlebar = false
 
-window-padding-y = 7,0
-window-padding-x = 4,4
+window-padding-y = 0,0
+window-padding-x = 0,0
 
 window-padding-balance = false
 
