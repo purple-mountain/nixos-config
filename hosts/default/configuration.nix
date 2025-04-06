@@ -210,6 +210,8 @@
       jmtpfs
       stripe-cli
       dnsutils
+      syncthing
+      go-migrate
     ];
   };
 
