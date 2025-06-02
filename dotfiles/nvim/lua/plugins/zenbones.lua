@@ -9,6 +9,12 @@ return {
   opts = {},
   config = function()
     vim.cmd("colorscheme neobones")
-    vim.cmd("set background=dark")
+    vim.api.nvim_set_hl(0, "Normal", { bg = "#100c08" })
+
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#100c08" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = "#100c08" })
+
+    -- vim.api.nvim_set_hl(0, "Normal", { bg = "#0f0f0f" })
+    -- vim.cmd("set background=dark")
   end,
 }
